@@ -41,6 +41,7 @@
     NSLog(@"Botón presionado");
     [self.rowsArray addObject:self.textFieldRow.text];
     [self.tableViewRows reloadData];
+    self.textFieldRow.text = @"";
     [self.textFieldRow resignFirstResponder];
 }
 @end
