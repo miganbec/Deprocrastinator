@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ViewController () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 @property NSMutableArray *rowsArray;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldRow;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRows;
@@ -62,6 +62,14 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -86,4 +94,26 @@
         [self.tableViewRows setEditing:YES animated:YES];
     }
 }
+
+- (IBAction)swipeRight:(UISwipeGestureRecognizer *)swipegesture {
+    CGPoint location = [swipegesture locationInView:self.tableViewRows];
+    NSIndexPath *indexPath = [self.tableViewRows indexPathForRowAtPoint:location];
+    if (indexPath) {
+        UITableViewCell *cell = [self.tableViewRows cellForRowAtIndexPath:indexPath];
+        if (cell.tag == 0) {
+            cell.backgroundColor = [UIColor greenColor];
+            cell.tag++;
+        } else if(cell.tag == 1) {
+            cell.backgroundColor = [UIColor yellowColor];
+            cell.tag++;
+        } else if (cell.tag == 2) {
+            cell.backgroundColor = [UIColor redColor];
+            cell.tag++;
+        } else if (cell.tag == 3) {
+            cell.backgroundColor = [UIColor whiteColor];
+            cell.tag = 0;
+        }
+    }
+}
+
 @end
