@@ -49,7 +49,7 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="64" width="400" height="433"/>
+                                    <rect key="frame" x="0.0" y="64" width="384" height="433"/>
                                 </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="vXZ-lx-hvc" id="4Xg-z4-Hsy"/>
