@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRows;
 @property NSIndexPath *lastIndexPath;
 @property NSMutableArray *checkedIndexPaths;
+@property (weak, nonatomic) IBOutlet UIButton *editButton;
 @end
 
 @implementation ViewController
@@ -53,13 +54,20 @@
     [self.tableViewRows reloadData];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.rowsArray removeObjectAtIndex:indexPath.row];
+        [self.tableViewRows reloadData];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)onAddButtonPressed:(id)sender {
-    NSLog(@"Botón presionado");
+    NSLog(@"Botón agregar presionado");
     [self.checkedIndexPaths addObject:[NSNumber numberWithBool:NO]];
     [self.rowsArray addObject:self.textFieldRow.text];
     [self.tableViewRows reloadData];
@@ -67,4 +75,14 @@
     [self.textFieldRow resignFirstResponder];
 }
 
+- (IBAction)onEditButtonPressed:(UIButton *)sender {
+    NSLog(@"Botón editar presionado");
+    if (self.tableViewRows.editing) {
+        [self.editButton setTitle:@"Editar" forState:UIControlStateNormal];
+        [self.tableViewRows setEditing:NO animated:YES];
+    } else {
+        [self.editButton setTitle:@"Hecho" forState:UIControlStateNormal];
+        [self.tableViewRows setEditing:YES animated:YES];
+    }
+}
 @end
