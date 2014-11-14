@@ -8,13 +8,13 @@
 
 #import "ViewController.h"
 
-@interface ViewController () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
+@interface ViewController () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UIAlertViewDelegate>
 @property NSMutableArray *rowsArray;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldRow;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRows;
-@property NSIndexPath *lastIndexPath;
 @property NSMutableArray *checkedIndexPaths;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
+@property NSIndexPath *alertIndexPath;
 @end
 
 @implementation ViewController
@@ -55,9 +55,17 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.alertIndexPath = indexPath;
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.rowsArray removeObjectAtIndex:indexPath.row];
-        [self.tableViewRows deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Advertencia" message:@"¿Estás seguro?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Sí", nil];
+        [alert show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self.rowsArray removeObjectAtIndex:self.alertIndexPath.row];
+        [self.tableViewRows deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.alertIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
         [self.tableViewRows reloadData];
     }
 }
